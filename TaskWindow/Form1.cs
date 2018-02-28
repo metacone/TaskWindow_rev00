@@ -74,8 +74,9 @@ namespace TaskWindow
         {
             EnumWindowCallback callback = new EnumWindowCallback(EnumWindowsProc);
 
-
-            EnumWindows(callback, 0);
+            int nReturn;
+            nReturn = EnumWindows(callback, 0);
+            Debug.WriteLine(nReturn);
         }
 
         delegate bool DsetEnumWindowsProc(int hWnd, int lParam);
@@ -84,8 +85,10 @@ namespace TaskWindow
         {
             public StringBuilder str;
             public int hWnd;
+            public int state;
         }
         TypeList[] List;
+        Byte[] BitMap;
 
         public bool EnumWindowsProc(int hWnd, int lParam)
         {
@@ -98,9 +101,6 @@ namespace TaskWindow
                 if (GetParent(hWnd) == 0)
                 {
                     StringBuilder Buf = new StringBuilder(256);
-
-                    
-
                     if (GetWindowText(hWnd, Buf, 256) > 0)
                     {
                         if (ProcessList.InvokeRequired)
@@ -110,15 +110,16 @@ namespace TaskWindow
                         }
                         else
                         {
-                            if(List == null)
+                            if (List == null)
                             {
                                 List = new TypeList[1];
                             }
                             else
                             {
-                                for(int index = 0; index < List.Length; index++)
+                                for (int index = 0; index < List.Length; index++)
                                 {
-                                    if((List[index].hWnd) == hWnd)
+                                    // Already, Regist
+                                    if ((List[index].hWnd) == hWnd)
                                     {
                                         return true;
                                     }
@@ -128,6 +129,16 @@ namespace TaskWindow
                             List[List.Length - 1].hWnd = hWnd;
                             List[List.Length - 1].str = Buf;
                             ProcessList.Items.Add(Buf);
+
+                            //Bit Map Make
+                            if (BitMap == null)
+                            {
+                                BitMap = new Byte[0];
+                            }
+                            if (List.Length % 32 == 1)
+                            {
+                                Array.Resize(ref BitMap, BitMap.Length + 1);
+                            }
                         }
                     }
                 }
