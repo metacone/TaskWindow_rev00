@@ -72,10 +72,20 @@ namespace TaskWindow
 
         public void OneHdred_ms(object sender, ElapsedEventArgs e)
         {
+            Debug.WriteLine("Start");
             EnumWindowCallback callback = new EnumWindowCallback(EnumWindowsProc);
 
 
             EnumWindows(callback, 0);
+
+            // running check
+            //Process[] ProcessList = Process.GetProcesses();
+
+            //foreach (Process CheckProcess in ProcessList)
+            //{
+            //    if (CheckProcess. == 0)
+            //        Debug.WriteLine(CheckProcess.ProcessName);
+            //}
         }
 
         delegate bool DsetEnumWindowsProc(int hWnd, int lParam);
