@@ -113,6 +113,8 @@ namespace TaskWindow
                             if (List == null)
                             {
                                 List = new TypeList[1];
+
+
                             }
                             else
                             {
