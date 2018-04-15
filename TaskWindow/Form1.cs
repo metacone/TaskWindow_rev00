@@ -20,7 +20,7 @@ namespace TaskWindow
             InitializeComponent();
 
             System.Timers.Timer objTimer = new System.Timers.Timer();
-            objTimer.Interval = 100;
+            objTimer.Interval = 10;
             objTimer.Elapsed += new ElapsedEventHandler(OneHdred_ms);
             objTimer.Start();
         }
